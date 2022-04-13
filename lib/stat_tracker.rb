@@ -99,4 +99,12 @@ class StatTracker
 		end
 		lowest_score_arr.min
 	end
+
+	def count_of_teams
+		total_teams = []
+		@teams.each do |team|
+			total_teams << team.team_id
+		end
+			total_teams.uniq.count
+	end
 end

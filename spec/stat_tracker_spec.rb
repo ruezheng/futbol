@@ -44,6 +44,7 @@ describe StatTracker do
 		expect(@stat_tracker.lowest_total_score).to eq 3
 	end
 
-  it 'can count the total number of teams'
+  it 'can count the total number of teams' do
     expect(@stat_tracker.count_of_teams).to eq 6
+  end
   end
