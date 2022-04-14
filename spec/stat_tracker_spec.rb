@@ -44,6 +44,15 @@ describe StatTracker do
 		expect(@stat_tracker.lowest_total_score).to eq 3
 	end
 
-
+  it 'has team info' do
+    expected = {
+      :team_id=>3,
+      :franchise_id=> 10,
+      :team_name=> "Houston Dynamo",
+      :abbreviation=> "HOU",
+      :link=>"/api/v1/teams/3"
+    }
+    expect(@stat_tracker.team_info(3)).to eq(expected)
+  end
 
 end
