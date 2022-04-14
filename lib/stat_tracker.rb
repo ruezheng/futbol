@@ -132,7 +132,7 @@ class StatTracker
             wins += 1
           end
         end
-        percentage = ((wins / win_loss.length) * 100).round(2)
+        percentage = ((wins.to_f / win_loss.length) * 100).round(2)
         if percentage > highest_percentage
           best_coach = coach
           highest_percentage = percentage
@@ -140,4 +140,6 @@ class StatTracker
     end
     return best_coach
   end
+
+  
 end
