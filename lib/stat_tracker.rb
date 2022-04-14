@@ -2,6 +2,7 @@ require 'csv'
 require './lib/game_team'
 require './lib/team'
 require './lib/game'
+require 'pry'
 class StatTracker
 
 	attr_reader :games, :teams, :game_teams
@@ -23,8 +24,8 @@ class StatTracker
 		team_arr = Array.new
 		teams.each do |row|
 			team_id = row[:team_id]
-			franchise_id = row[:franchise_id]
-			team_name = row[:team_name]
+			franchise_id = row[:franchiseid]
+			team_name = row[:teamname]
 			abbreviation = row[:abbreviation]
 			stadium = row[:stadium] # do symbols always return all lowercase or the same case as we assign it???
 			link = row[:link]
@@ -46,9 +47,9 @@ class StatTracker
       shots = row[:shots]
       tackles = row[:tackles]
       pim = row[:pim]
-      power_play_opportunities = row[:power_play_opportunities]
-      power_play_goals = row[:power_play_goals]
-      face_off_win_percentage = row[:face_off_win_percentage]
+      power_play_opportunities = row[:powerplayopportunities]
+      power_play_goals = row[:powerplaygoals]
+      face_off_win_percentage = row[:faceoffwinpercentage]
       giveaways = row[:giveaways]
       takeaways = row[:takeaways]
       # binding.pry
@@ -99,4 +100,44 @@ class StatTracker
 		end
 		lowest_score_arr.min
 	end
+
+  def winningest_coach(season)
+    #find all the games for the given season
+    season_games = @games.find_all{|game| game.season == season}
+    #use the season to find the game_id and then get an array of all the game_teams for that season
+    game_teams_by_season = []
+    season_games.each do |game|
+      matching_game_team = @game_teams.find_all{|g_t| g_t.game_id == game.game_id}
+      if matching_game_team
+        game_teams_by_season << matching_game_team
+      end
+    end
+    game_teams_by_season.flatten!
+    #go through the game_team objects to calculate win precentage for each coach
+    coach_wins_losses = {}
+    game_teams_by_season.each do |game_team|
+      if coach_wins_losses.keys.include?(game_team.head_coach)
+        coach_wins_losses[game_team.head_coach] << game_team.result
+      else
+        coach_wins_losses[game_team.head_coach] = [game_team.result]
+      end
+    end
+    #calculate win percentage for each coach
+    highest_percentage = 0.0
+    best_coach = nil
+    coach_wins_losses.each do |coach, win_loss|
+        wins = 0
+        win_loss.each do |val|
+          if val == "WIN"
+            wins += 1
+          end
+        end
+        percentage = ((wins / win_loss.length) * 100).round(2)
+        if percentage > highest_percentage
+          best_coach = coach
+          highest_percentage = percentage
+        end
+    end
+    return best_coach
+  end
 end

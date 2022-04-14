@@ -44,6 +44,8 @@ describe StatTracker do
 		expect(@stat_tracker.lowest_total_score).to eq 3
 	end
 
-
+  it 'has winningest coach' do
+    expect(@stat_tracker.winningest_coach("20122013")).to eq "Claude Julien"
+  end
 
 end

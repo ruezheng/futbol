@@ -17,4 +17,6 @@ class Game
     @venue = venue
     @venue_link = venue_link
   end
+
+  
 end
