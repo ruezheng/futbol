@@ -20,7 +20,7 @@ module SeasonModule
     end
     tackles_hash
   end
-  
+
   def SeasonModule.game_teams_for_season(season, game_teams)
     game_teams.find_all{|game_team| game_team.game_id[0..3] == season[0..3]}
   end
@@ -66,12 +66,12 @@ module SeasonModule
   def SeasonModule.team_shots_goals(season_game_teams)
     team_shots_goals = {}
     season_game_teams.each do |season_game|
-      team_id = season_game.team_id
+      team_id = season_game.team_id.to_i
       if team_shots_goals[team_id]
-        team_shots_goals[team_id][0] += season_game.shots
-        team_shots_goals[team_id][1] +=  season_game.goals
+        team_shots_goals[team_id][0] += season_game.shots.to_i
+        team_shots_goals[team_id][1] +=  season_game.goals.to_i
       else
-        team_shots_goals[team_id] = [season_game.shots, season_game.goals]
+        team_shots_goals[team_id] = [season_game.shots.to_i, season_game.goals.to_i]
       end
     end
     return team_shots_goals
@@ -91,7 +91,7 @@ module SeasonModule
 		team_shots_goals = team_shots_goals(season_game_teams)
 		team_shots_goals_ratios = shots_goals_ratio(team_shots_goals)
 		best_team_id = team_shots_goals_ratios.invert.min[1]
-		best_team = teams.find{|team| team.team_id == best_team_id}
+		best_team = teams.find{|team| team.team_id.to_i == best_team_id}
 		return best_team.team_name
   end
 
@@ -100,7 +100,7 @@ module SeasonModule
 		team_shots_goals = team_shots_goals(season_game_teams)
 		team_shots_goals_ratios = shots_goals_ratio(team_shots_goals)
 		worst_team_id = team_shots_goals_ratios.invert.max[1]
-		worst_team = teams.find{|team| team.team_id == worst_team_id}
+		worst_team = teams.find{|team| team.team_id.to_i == worst_team_id}
 		return worst_team.team_name
 
   end
