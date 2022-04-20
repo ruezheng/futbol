@@ -563,6 +563,15 @@ include SeasonModule
 		return fav_opponent_team.team_name
   end
 
+	def rival(team_name)
+		team_id = @teams.find{|team| team.team_name == team_name}.team_id
+		game_info_for_team = @game_teams.find_all{|game_team| game_team.team_id == team_id}
+		opponent_game_info = TeamModule.opponent_game_team_info(@game_teams, game_info_for_team, team_id)
+		opponent_win_percentage = TeamModule.opponent_win_percentage(opponent_game_info)
+		rival_id = opponent_win_percentage.invert.max[1]
+		rival_team = @teams.find{|team| team.team_id == rival_id}
+		return rival_team.team_name
+	end
 
 	def highest_scoring_home_team
 		home_win_id = home_goals_hash.sort_by{|team_id, score| score}.last[0]
@@ -613,46 +622,4 @@ include SeasonModule
 		team_name_by_id(team_id.to_i)
 	end
 
-	def rival(team_name)
-		team_id = @teams.find{|team| team.team_name == team_name}.team_id
-		#find every GameTeam object for this team
-		game_info_for_team = @game_teams.find_all{|game_team| game_team.team_id == team_id}
-		#find every GameTeam object for all opponents of the team and associate them with team id in a hash
-		opponent_game_info = {}
-		game_info_for_team.each do |given_team|
-			opponent = @game_teams.find{|game_team| ((game_team.team_id != team_id) && (game_team.game_id == given_team.game_id))}
-			if opponent
-				if opponent_game_info[opponent.team_id]
-					opponent_game_info[opponent.team_id] << opponent
-				else
-					opponent_game_info[opponent.team_id] = [opponent]
-				end
-			end
-		end
-		#calculate win percentage for each team in opponent_game_info_hash
-		opponent_win_percentage = {}
-		lowest_win_percentage = 0
-		opponent_game_info.each do |team_id, game_teams|
-			wins_losses = []
-			game_teams.each do |game_team|
-				wins_losses << game_team.result
-			end
-			win_percentage = (wins_losses.count("WIN"
-			).to_f / wins_losses.count.to_f) * 100
-			if win_percentage > lowest_win_percentage
-				lowest_win_percentage = win_percentage
-			end
-			opponent_win_percentage[team_id] = win_percentage
-		end
-		fav_opponent_id = nil
-		opponent_win_percentage.each do |id, win|
-			if win == lowest_win_percentage
-				fav_opponent_id = id
-				break
-			end
-		end
-		#find the name associated with the id for fav_opponent
-		fav_opponent_team = @teams.find{|team| team.team_id == fav_opponent_id}
-		return fav_opponent_team.team_name
-		end
-	end
+end

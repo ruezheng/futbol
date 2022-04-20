@@ -283,7 +283,7 @@ describe StatTracker do
     end
 
     it "can name opponent with the highest win percentage aganist a given team" do
-      expect(@stat_tracker.rival("New England Revolution")).to eq "LA Galaxy"
+      expect(@stat_tracker.rival("New England Revolution")).to eq "Philadelphia Union"
 
     end
 
