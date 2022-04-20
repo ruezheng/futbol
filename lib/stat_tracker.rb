@@ -99,7 +99,7 @@ class StatTracker
 	end
 
 	def average_win_percentage(team_id)
-		games_by_team_arr = @game_teams.find_all { |game| game.team_id == team_id }
+		games_by_team_arr = @game_teams.find_all { |game| game.team_id.to_i == team_id }
 		results_arr = games_by_team_arr.map { |games| games.result }
 		wins = results_arr.count("WIN")
 		win_percentage = (wins.to_f / results_arr.count.to_f).round(2)
