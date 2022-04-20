@@ -246,7 +246,7 @@ describe StatTracker do
     end
 
     it 'calculates team with least tackles in season' do
-      expect(@stat_tracker.least_tackles("20122013")).to eq "LA Galaxy"
+      expect(@stat_tracker.fewest_tackles("20122013")).to eq "LA Galaxy"
     end
 
      it 'can determine winningest coach for a season' do
@@ -304,11 +304,11 @@ describe StatTracker do
 
     it 'has team info' do
       expected = {
-        :team_id=>3,
-        :franchise_id=> 10,
-        :team_name=> "Houston Dynamo",
-        :abbreviation=> "HOU",
-        :link=>"/api/v1/teams/3"
+        'team_id' => '3',
+        'franchise_id' => '10',
+        'team_name' => 'Houston Dynamo',
+        'abbreviation' => 'HOU',
+        'link' => '/api/v1/teams/3'
       }
       expect(@stat_tracker.team_info(3)).to eq expected
     end

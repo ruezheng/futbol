@@ -35,7 +35,7 @@ module LeagueModule
 		games = 0
 		games_arr.each do |game|
 
-			if game.home_team_id == team_id.to_i
+			if game.home_team_id.to_i == team_id.to_i
 				goals += game.home_goals.to_i
 				games += 1
 			end
@@ -106,7 +106,7 @@ module LeagueModule
   end
 
   def LeagueModule.goals_scored(team_id, game_teams_arr)
-    team_number = game_teams_arr.find_all{|game_team| game_team.team_id.to_i == team_id}
+    team_number = game_teams_arr.find_all{|game_team| game_team.team_id.to_i == team_id.to_i}
 		team_goals = {}
 		team_number.each do |game|
 			if team_goals[game.team_id.to_i] == nil
