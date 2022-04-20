@@ -20,33 +20,22 @@ describe StatTracker do
   end
 
   it 'exists' do
-    expect(@stat_tracker).to be_an_instance_of(StatTracker)
+    expect(@stat_tracker).to be_an_instance_of StatTracker
   end
 
   it 'has game' do
-    expect(@stat_tracker.games[0]).to be_a(Game)
+    expect(@stat_tracker.games[0]).to be_a Game
   end
 
 	it "has a team" do
-		expect(@stat_tracker.teams[0]).to be_a(Team)
+		expect(@stat_tracker.teams[0]).to be_a Team
 	end
 
   it 'has game_teams' do
-    expect(@stat_tracker.game_teams[0]).to be_a(GameTeam)
+    expect(@stat_tracker.game_teams[0]).to be_a GameTeam
   end
 
 	describe "Game Statistics" do
-		before :each do
-		 @game_path = './data/dummy_games.csv'
-		 @team_path = './data/dummy_teams.csv'
-		 @game_teams_path = './data/dummy_game_teams.csv'
-
-		 @locations = {
-		   games: @game_path,
-		   teams: @team_path,
-		   game_teams: @game_teams_path
-		 }
-		end
 
 		it "can calculate the total number of games played" do
 		 expect(@stat_tracker.game_count).to eq 16
@@ -95,26 +84,15 @@ describe StatTracker do
 	end
 
   describe "League Statistics" do
-    before :each do
-      @game_path = './data/dummy_games.csv'
-      @team_path = './data/dummy_teams.csv'
-      @game_teams_path = './data/dummy_game_teams.csv'
-
-      @locations = {
-        games: @game_path,
-        teams: @team_path,
-        game_teams: @game_teams_path
-      }
-    end
 
     it 'can count the total number of teams' do
       expect(@stat_tracker.count_of_teams).to eq 32
     end
 
     it 'creates an array with all the teams' do
-      expect(LeagueModule.total_team_count(@stat_tracker.teams)).to eq(
       expected = [1, 4, 26, 14, 6, 3, 5, 17, 28, 18, 23, 16, 9, 8, 30, 15,
-        19, 24, 27, 2, 20, 21, 25, 13, 10, 29, 52, 54, 12, 7, 22, 53])
+        19, 24, 27, 2, 20, 21, 25, 13, 10, 29, 52, 54, 12, 7, 22, 53]
+      expect(LeagueModule.total_team_count(@stat_tracker.teams)).to eq expected
     end
 
 
@@ -211,7 +189,7 @@ describe StatTracker do
       avg_goals = LeagueModule.goals_average(get_team_goals)
       name_of_teams = LeagueModule.team_names(@stat_tracker.teams)
       team_id_to_team_name = LeagueModule.id_to_name(avg_goals, name_of_teams)
-      expect(LeagueModule.max_avg_goals(team_id_to_team_name)).to eq("Sporting Kansas City")
+      expect(LeagueModule.max_avg_goals(team_id_to_team_name)).to eq "Sporting Kansas City"
     end
 
     it "finds the min average goals" do
@@ -219,7 +197,7 @@ describe StatTracker do
       avg_goals = LeagueModule.goals_average(get_team_goals)
       name_of_teams = LeagueModule.team_names(@stat_tracker.teams)
       team_id_to_team_name = LeagueModule.id_to_name(avg_goals, name_of_teams)
-      expect(LeagueModule.min_avg_goals(team_id_to_team_name)).to eq("New England Revolution")
+      expect(LeagueModule.min_avg_goals(team_id_to_team_name)).to eq "New England Revolution"
     end
 
     it "can return the most goals scored by a team in a single game" do
@@ -231,48 +209,37 @@ describe StatTracker do
     end
 
     it "creates an array of all team goals by a given team" do
-      expect(LeagueModule.goals_scored(26, @stat_tracker.game_teams)).to eq([3, 1])
+      expect(LeagueModule.goals_scored(26, @stat_tracker.game_teams)).to eq [3, 1]
     end
 
     it 'returns highest average scoring of home team' do
-      expect(@stat_tracker.highest_scoring_home_team).to eq("FC Dallas")
+      expect(@stat_tracker.highest_scoring_home_team).to eq "FC Dallas"
     end
 
     it 'returns lowest average scoring home team' do
-      expect(@stat_tracker.lowest_scoring_home_team).to eq("New York City FC")
+      expect(@stat_tracker.lowest_scoring_home_team).to eq "New York City FC"
     end
 
 		it "can return the average score per game across all seasons when they are away" do
-			expect(LeagueModule.average_visitor_scores(@stat_tracker.games)).to be_a(Hash)
-			expect(LeagueModule.average_visitor_scores(@stat_tracker.games)[3]).to eq(1.75)
-			expect(LeagueModule.average_visitor_scores(@stat_tracker.games)[8]).to eq(2)
+			expect(LeagueModule.average_visitor_scores(@stat_tracker.games)).to be_a Hash
+			expect(LeagueModule.average_visitor_scores(@stat_tracker.games)[3]).to eq 1.75
+			expect(LeagueModule.average_visitor_scores(@stat_tracker.games)[8]).to eq 2
 		end
 
 		it "can return average away goals per team" do
-			expect(LeagueModule.average_away_goals_per_team(3, @stat_tracker.games)).to eq(1.75)
+			expect(LeagueModule.average_away_goals_per_team(3, @stat_tracker.games)).to eq 1.75
 		end
 
     it "returns the name of the team with the highest average score per game across all seasons when they are away" do
-      expect(@stat_tracker.highest_scoring_visitor).to eq("Real Salt Lake")
+      expect(@stat_tracker.highest_scoring_visitor).to eq "Real Salt Lake"
     end
 
     it "returns the name of the team with the lowest average score per game across all seasons when they are away" do
-      expect(@stat_tracker.lowest_scoring_visitor).to eq('Chicago Fire')
+      expect(@stat_tracker.lowest_scoring_visitor).to eq 'Chicago Fire'
     end
   end
 
   describe "Season Statistics" do
-    before :each do
-      @game_path = './data/dummy_games.csv'
-      @team_path = './data/dummy_teams.csv'
-      @game_teams_path = './data/dummy_game_teams.csv'
-
-      @locations = {
-        games: @game_path,
-        teams: @team_path,
-        game_teams: @game_teams_path
-      }
-     end
 
     it 'calculates team with most tackles in season' do
       expect(@stat_tracker.most_tackles("20122013")).to eq "FC Dallas"
@@ -293,15 +260,15 @@ describe StatTracker do
 
     it 'can create hash with win loss record for each coach in a season' do
       game_teams_by_season = SeasonModule.game_teams_for_season("20122013", @stat_tracker.game_teams)
-      expect(SeasonModule.coach_wins_losses_for_season(game_teams_by_season)["John Tortorella"]).to eq(["LOSS", "LOSS"])
+      expect(SeasonModule.coach_wins_losses_for_season(game_teams_by_season)["John Tortorella"]).to eq ["LOSS", "LOSS"]
     end
 
     it 'can calculate win percentage for each coach' do
       game_teams_by_season = SeasonModule.game_teams_for_season("20122013", @stat_tracker.game_teams)
       coach_wins_losses = SeasonModule.coach_wins_losses_for_season(game_teams_by_season)
       coach_win_percentages = SeasonModule.coach_win_percentage(coach_wins_losses)
-      expect(coach_win_percentages["John Tortorella"]).to eq(0)
-      expect(coach_win_percentages["Mike Babcock"]).to eq(50.0)
+      expect(coach_win_percentages["John Tortorella"]).to eq 0
+      expect(coach_win_percentages["Mike Babcock"]).to eq 50.0
     end
 
     it 'can determine worst coach for a season' do
@@ -334,17 +301,6 @@ describe StatTracker do
   end
 
   describe "Team Statistics" do
-    before :each do
-      @game_path = './data/dummy_games.csv'
-      @team_path = './data/dummy_teams.csv'
-      @game_teams_path = './data/dummy_game_teams.csv'
-
-      @locations = {
-        games: @game_path,
-        teams: @team_path,
-        game_teams: @game_teams_path
-      }
-     end
 
     it 'has team info' do
       expected = {
@@ -394,17 +350,17 @@ describe StatTracker do
     end
 
     it 'can determine name of favorite opponent for a given team' do
-      expect(@stat_tracker.favorite_opponent("New England Revolution")).to eq "LA Galaxy"
-      expect(@stat_tracker.favorite_opponent("FC Dallas")).to eq "Houston Dynamo"
+      expect(@stat_tracker.favorite_opponent("16")).to eq "Philadelphia Union"
+      expect(@stat_tracker.favorite_opponent("6")).to eq "Houston Dynamo"
     end
 
     it "can name opponent with the highest win percentage aganist a given team" do
-      expect(@stat_tracker.rival("New England Revolution")).to eq "LA Galaxy"
+      expect(@stat_tracker.rival("16")).to eq "Philadelphia Union"
     end
 
     it 'can determine name of rival for a given team' do
-      expect(@stat_tracker.rival("LA Galaxy")).to eq "New England Revolution"
-      expect(@stat_tracker.rival("Houston Dynamo")).to eq "FC Dallas"
+      expect(@stat_tracker.rival("17")).to eq "New England Revolution"
+      expect(@stat_tracker.rival("3")).to eq "FC Dallas"
     end
   end
 end
