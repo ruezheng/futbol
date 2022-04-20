@@ -88,7 +88,6 @@ module LeagueModule
     max_avg = avg_goals.values.max
     max_team = avg_goals.select{|team, goals| goals == max_avg}
     return max_team.keys[0]
-    require "pry";binding.pry
   end
 
   def LeagueModule.min_avg_goals(avg_goals)
