@@ -60,11 +60,11 @@ class StatTracker
 	def team_info(team_id)
 		team_hash = {}
 		team = @teams.find { |team| team.team_id.to_i == team_id.to_i }
-		team_hash[:team_id] = team.team_id.to_i
-		team_hash[:franchise_id] = team.franchise_id.to_i
-		team_hash[:team_name] = team.team_name
-		team_hash[:abbreviation] = team.abbreviation
-		team_hash[:link] = team.link
+		team_hash['team_id'] = team.team_id
+		team_hash['franchise_id'] = team.franchise_id
+		team_hash['team_name'] = team.team_name
+		team_hash['abbreviation'] = team.abbreviation
+		team_hash['link'] = team.link
 		team_hash
 	end
 
@@ -92,7 +92,7 @@ class StatTracker
 		LeagueModule.team_name_by_id(tackle_id, @teams)
 	end
 
-	def least_tackles(season_id)
+	def fewest_tackles(season_id)
 		tackles_hash = SeasonModule.tackles_hash(season_id, @game_teams)
 		tackle_id = tackles_hash.sort_by{|team_id, tackles| tackles}.first[0]
 		LeagueModule.team_name_by_id(tackle_id, @teams)
