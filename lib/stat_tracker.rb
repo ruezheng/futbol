@@ -554,23 +554,11 @@ include SeasonModule
 	end
 
   def favorite_opponent(team_name)
-		team_id = @teams.find{|team| team.team_name == team_name}.team_id
-		game_info_for_team = @game_teams.find_all{|game_team| game_team.team_id == team_id}
-		opponent_game_info = TeamModule.opponent_game_team_info(@game_teams, game_info_for_team, team_id)
-		opponent_win_percentage = TeamModule.opponent_win_percentage(opponent_game_info)
-		fav_opponent_id = opponent_win_percentage.invert.min[1]
-		fav_opponent_team = @teams.find{|team| team.team_id == fav_opponent_id}
-		return fav_opponent_team.team_name
+		TeamModule.find_fav_opponent(team_name, @teams, @game_teams)
   end
 
 	def rival(team_name)
-		team_id = @teams.find{|team| team.team_name == team_name}.team_id
-		game_info_for_team = @game_teams.find_all{|game_team| game_team.team_id == team_id}
-		opponent_game_info = TeamModule.opponent_game_team_info(@game_teams, game_info_for_team, team_id)
-		opponent_win_percentage = TeamModule.opponent_win_percentage(opponent_game_info)
-		rival_id = opponent_win_percentage.invert.max[1]
-		rival_team = @teams.find{|team| team.team_id == rival_id}
-		return rival_team.team_name
+		TeamModule.find_rival(team_name, @teams, @game_teams)
 	end
 
 	def highest_scoring_home_team
