@@ -4,7 +4,7 @@ module TeamModule
 
   def TeamModule.season_hash(team_id, game_teams)
     game_team_arr = game_teams.find_all do |game|
-      game.team_id == team_id
+      game.team_id.to_i == team_id.to_i
     end
     season_record_hash = {}
     game_team_arr.each do |game|
@@ -18,7 +18,7 @@ module TeamModule
   end
 
   def TeamModule.season_win_percentages(team_id, game_teams)
-    season_record_hash = TeamModule.season_hash(team_id, game_teams)
+    season_record_hash = TeamModule.season_hash(team_id.to_i, game_teams)
     win_counter = 0
     season_win_percentage_hash = {}
     season_record_hash.each do |season, result|

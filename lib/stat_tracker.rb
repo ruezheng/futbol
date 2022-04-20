@@ -59,8 +59,8 @@ class StatTracker
 
 	def team_info(team_id)
 		team_hash = {}
-		team = @teams.find { |team| team.team_id == team_id.to_i }
-		team_hash[:team_id] = team.team_id
+		team = @teams.find { |team| team.team_id.to_i == team_id.to_i }
+		team_hash[:team_id] = team.team_id.to_i
 		team_hash[:franchise_id] = team.franchise_id.to_i
 		team_hash[:team_name] = team.team_name
 		team_hash[:abbreviation] = team.abbreviation
@@ -69,7 +69,7 @@ class StatTracker
 	end
 
 	def best_season(team_id)
-		 season_win_percentage_hash = TeamModule.season_win_percentages(team_id, @game_teams)
+		 season_win_percentage_hash = TeamModule.season_win_percentages(team_id.to_i, @game_teams)
 		 best_season = season_win_percentage_hash.invert.max
 		 best_game = @games.find do |game|
 		  best_season[1] == game.season[0..3]
@@ -78,7 +78,7 @@ class StatTracker
 	end
 
 	def worst_season(team_id)
-		 season_win_percentage_hash = TeamModule.season_win_percentages(team_id, @game_teams)
+		 season_win_percentage_hash = TeamModule.season_win_percentages(team_id.to_i, @game_teams)
 	 	 best_season = season_win_percentage_hash.invert.min
 	 	 best_game = @games.find do |game|
 	 		best_season[1] == game.season[0..3]
