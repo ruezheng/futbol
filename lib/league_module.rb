@@ -34,7 +34,8 @@ module LeagueModule
 		goals = 0
 		games = 0
 		games_arr.each do |game|
-			if game.home_team_id.to_i == team_id
+
+			if game.home_team_id == team_id.to_i
 				goals += game.home_goals.to_i
 				games += 1
 			end
@@ -108,10 +109,10 @@ module LeagueModule
     team_number = game_teams_arr.find_all{|game_team| game_team.team_id.to_i == team_id}
 		team_goals = {}
 		team_number.each do |game|
-			if team_goals[game.team_id] == nil
-				team_goals[game.team_id] = [game.goals.to_i]
+			if team_goals[game.team_id.to_i] == nil
+				team_goals[game.team_id.to_i] = [game.goals.to_i]
 			else
-				team_goals[game.team_id] << game.goals.to_i
+				team_goals[game.team_id.to_i] << game.goals.to_i
 			end
 		end
 		team_goals.values.flatten!
@@ -120,7 +121,7 @@ module LeagueModule
   def LeagueModule.team_name_by_id(team_id, teams)
     name = ""
     teams.find_all do |team|
-      if team.team_id.to_i == team_id
+      if team.team_id.to_i == team_id.to_i
          name << team.team_name
       end
     end
