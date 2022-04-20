@@ -1,13 +1,9 @@
-require 'simplecov'
-SimpleCov.start
-require './lib/stat_tracker'
-require './lib/game_team'
+require './required_files'
 
 describe GameTeam do
 
   before(:each) do
-    @game_team1 = GameTeam.new("2012030221","3","away","LOSS","OT",
-      "John Tortorella","2","8","44","8","3","0","44.8","17","7")
+    @game_team1 = GameTeam.new({game_id: "2012030221", team_id: "3", hoa: "away", result: "LOSS", settled_in: "OT", head_coach: "John Tortorella", goals: "2", shots: "8", tackles: "44", pim: "8", powerplayopportunities: "3", powerplaygoals: "0", faceoffwinpercentage: "44.8", giveaways: "17", takeaways: "7"})
   end
 
   it 'exists' do

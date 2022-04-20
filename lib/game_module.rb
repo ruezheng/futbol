@@ -1,5 +1,3 @@
-require './required_files'
-
 module GameModule
 
   def GameModule.total_score(games)
@@ -28,5 +26,18 @@ module GameModule
       end
     end
     return total_visitor_wins
+  end
+
+  def GameModule.season_goals(games)
+    season_goals = {}
+    games.each do |game|
+      season = game.season
+      if season_goals[season] == nil
+        season_goals[season] = [game.away_goals.to_i + game.home_goals.to_i]
+      else
+        season_goals[season] << game.away_goals.to_i + game.home_goals.to_i
+      end
+    end
+    return season_goals
   end
 end
