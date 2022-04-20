@@ -278,18 +278,18 @@ describe StatTracker do
     end
 
     it 'can determine name of favorite opponent for a given team' do
-      expect(@stat_tracker.favorite_opponent("New England Revolution")).to eq "Philadelphia Union"
-      expect(@stat_tracker.favorite_opponent("FC Dallas")).to eq "Houston Dynamo"
+      expect(@stat_tracker.favorite_opponent("16")).to eq "Philadelphia Union"
+      expect(@stat_tracker.favorite_opponent("6")).to eq "Houston Dynamo"
     end
 
     it "can name opponent with the highest win percentage aganist a given team" do
-      expect(@stat_tracker.rival("New England Revolution")).to eq "Philadelphia Union"
+      expect(@stat_tracker.rival("16")).to eq "Philadelphia Union"
 
     end
 
     it 'can determine name of rival for a given team' do
-      expect(@stat_tracker.rival("LA Galaxy")).to eq "New England Revolution"
-      expect(@stat_tracker.rival("Houston Dynamo")).to eq "FC Dallas"
+      expect(@stat_tracker.rival("17")).to eq "New England Revolution"
+      expect(@stat_tracker.rival("3")).to eq "FC Dallas"
 
     end
   end

@@ -553,12 +553,12 @@ include SeasonModule
 		return game_count_by_season_hash
 	end
 
-  def favorite_opponent(team_name)
-		TeamModule.find_fav_opponent(team_name, @teams, @game_teams)
+  def favorite_opponent(team_id)
+		TeamModule.find_fav_opponent(team_id, @teams, @game_teams)
   end
 
-	def rival(team_name)
-		TeamModule.find_rival(team_name, @teams, @game_teams)
+	def rival(team_id)
+		TeamModule.find_rival(team_id, @teams, @game_teams)
 	end
 
 	def highest_scoring_home_team

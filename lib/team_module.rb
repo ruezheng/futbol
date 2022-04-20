@@ -28,8 +28,8 @@ module TeamModule
     return opponent_win_percentage
   end
 
-  def TeamModule.find_fav_opponent(team_name, teams, game_teams)
-    team_id = teams.find{|team| team.team_name == team_name}.team_id
+  def TeamModule.find_fav_opponent(team_id, teams, game_teams)
+    team_id = teams.find{|team| team.team_id == team_id}.team_id
 		game_info_for_team = game_teams.find_all{|game_team| game_team.team_id == team_id}
 		opponent_game_info = opponent_game_team_info(game_teams, game_info_for_team, team_id)
 		opponent_win_percentage = opponent_win_percentage(opponent_game_info)
@@ -38,8 +38,8 @@ module TeamModule
 		return fav_opponent_team.team_name
   end
 
-  def TeamModule.find_rival(team_name, teams, game_teams)
-    team_id = teams.find{|team| team.team_name == team_name}.team_id
+  def TeamModule.find_rival(team_id, teams, game_teams)
+    team_id = teams.find{|team| team.team_id == team_id}.team_id
 		game_info_for_team = game_teams.find_all{|game_team| game_team.team_id == team_id}
 		opponent_game_info = opponent_game_team_info(game_teams, game_info_for_team, team_id)
 		opponent_win_percentage = opponent_win_percentage(opponent_game_info)
