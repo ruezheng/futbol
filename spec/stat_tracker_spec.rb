@@ -275,11 +275,11 @@ describe StatTracker do
      end
 
     it 'calculates team with most tackles in season' do
-      expect(@stat_tracker.most_tackles("20122013")).to eq("FC Dallas")
+      expect(@stat_tracker.most_tackles("20122013")).to eq "FC Dallas"
     end
 
     it 'calculates team with least tackles in season' do
-      expect(@stat_tracker.least_tackles("20122013")).to eq("LA Galaxy")
+      expect(@stat_tracker.least_tackles("20122013")).to eq "LA Galaxy"
     end
 
      it 'can determine winningest coach for a season' do

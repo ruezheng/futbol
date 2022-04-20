@@ -5,7 +5,7 @@ module LeagueModule
   def LeagueModule.average_visitor_scores(games_arr)
     away_team_goals_hash = {}
     games_arr.each do |game|
-      away_team_goals_hash[game.away_team_id] = average_away_goals_per_team(game.away_team_id, games_arr)
+      away_team_goals_hash[game.away_team_id.to_i] = average_away_goals_per_team(game.away_team_id.to_i, games_arr)
     end
     away_team_goals_hash
   end
@@ -14,8 +14,8 @@ module LeagueModule
     goals = 0
     games = 0
     games_arr.each do |game|
-      if game.away_team_id == team_id
-        goals += game.away_goals
+      if game.away_team_id.to_i == team_id
+        goals += game.away_goals.to_i
         games += 1
       end
     end
@@ -34,6 +34,7 @@ module LeagueModule
 		goals = 0
 		games = 0
 		games_arr.each do |game|
+
 			if game.home_team_id == team_id.to_i
 				goals += game.home_goals.to_i
 				games += 1
@@ -66,7 +67,7 @@ module LeagueModule
   def LeagueModule.team_names(teams_arr)
     team_names = {}
     teams_arr.each do |team|
-      team_names[team.team_id] = team.team_name
+      team_names[team.team_id.to_i] = team.team_name
     end
     team_names
   end
@@ -99,7 +100,7 @@ module LeagueModule
   def LeagueModule.total_team_count(teams_arr)
     total_teams = []
     teams_arr.each do |team|
-      total_teams << team.team_id
+      total_teams << team.team_id.to_i
     end
     total_teams
   end
