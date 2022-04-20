@@ -5,7 +5,7 @@ module LeagueModule
   def LeagueModule.average_visitor_scores(games_arr)
     away_team_goals_hash = {}
     games_arr.each do |game|
-      away_team_goals_hash[game.away_team_id] = average_away_goals_per_team(game.away_team_id, games_arr)
+      away_team_goals_hash[game.away_team_id.to_i] = average_away_goals_per_team(game.away_team_id.to_i, games_arr)
     end
     away_team_goals_hash
   end
@@ -14,8 +14,8 @@ module LeagueModule
     goals = 0
     games = 0
     games_arr.each do |game|
-      if game.away_team_id == team_id
-        goals += game.away_goals
+      if game.away_team_id.to_i == team_id
+        goals += game.away_goals.to_i
         games += 1
       end
     end
@@ -25,7 +25,7 @@ module LeagueModule
   def LeagueModule.average_home_scores(games_arr)
 		home_team_goals_hash = {}
 		games_arr.each do |game|
-			home_team_goals_hash[game.home_team_id] = average_home_goals_per_team(game.home_team_id, games_arr)
+			home_team_goals_hash[game.home_team_id.to_i] = average_home_goals_per_team(game.home_team_id.to_i, games_arr)
 		end
 		home_team_goals_hash
 	end
@@ -34,8 +34,8 @@ module LeagueModule
 		goals = 0
 		games = 0
 		games_arr.each do |game|
-			if game.home_team_id == team_id
-				goals += game.home_goals
+			if game.home_team_id.to_i == team_id
+				goals += game.home_goals.to_i
 				games += 1
 			end
 		end
@@ -120,7 +120,7 @@ module LeagueModule
   def LeagueModule.team_name_by_id(team_id, teams)
     name = ""
     teams.find_all do |team|
-      if team.team_id == team_id
+      if team.team_id.to_i == team_id
          name << team.team_name
       end
     end

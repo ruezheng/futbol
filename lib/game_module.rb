@@ -1,5 +1,3 @@
-
-
 module GameModule
 
   def GameModule.total_score(games)
@@ -35,9 +33,9 @@ module GameModule
     games.each do |game|
       season = game.season
       if season_goals[season] == nil
-        season_goals[season] = [game.away_goals + game.home_goals]
+        season_goals[season] = [game.away_goals.to_i + game.home_goals.to_i]
       else
-        season_goals[season] << game.away_goals + game.home_goals
+        season_goals[season] << game.away_goals.to_i + game.home_goals.to_i
       end
     end
     return season_goals
