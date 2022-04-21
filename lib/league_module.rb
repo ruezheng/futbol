@@ -127,5 +127,39 @@ module LeagueModule
     name
   end
 
+  def LeagueModule.find_best_offense(game_teams, teams)
+    team_goals = LeagueModule.get_team_goals(game_teams)
+    avg_goals = LeagueModule.goals_average(team_goals)
+    name_of_teams = LeagueModule.team_names(teams)
+    team_id_to_team_names = LeagueModule.id_to_name(avg_goals, name_of_teams)
+    LeagueModule.max_avg_goals(team_id_to_team_names)
+  end
 
+  def LeagueModule.find_worst_offense(game_teams, teams)
+    team_goals = LeagueModule.get_team_goals(game_teams)
+    avg_goals = LeagueModule.goals_average(team_goals)
+    name_of_teams = LeagueModule.team_names(teams)
+    team_id_to_team_names = LeagueModule.id_to_name(avg_goals, name_of_teams)
+    LeagueModule.min_avg_goals(team_id_to_team_names)
+  end
+
+  def LeagueModule.highest_visitor_score(games, teams)
+    team_id = LeagueModule.average_visitor_scores(games).invert.max.last
+    LeagueModule.team_name_by_id(team_id.to_i, teams)
+  end
+
+  def LeagueModule.lowest_visitor_score(games, teams)
+		team_id = LeagueModule.average_visitor_scores(games).invert.min.last
+		LeagueModule.team_name_by_id(team_id.to_i, teams)
+	end
+
+  def LeagueModule.highest_home_team_score(games, teams)
+		team_id = LeagueModule.average_home_scores(games).invert.max.last
+		LeagueModule.team_name_by_id(team_id.to_i, teams)
+  end
+
+  def LeagueModule.lowest_home_team_score(games, teams)
+		team_id = LeagueModule.average_home_scores(games).invert.min.last
+		LeagueModule.team_name_by_id(team_id.to_i, teams)
+  end
 end

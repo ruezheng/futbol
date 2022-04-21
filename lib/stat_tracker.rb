@@ -46,11 +46,7 @@ class StatTracker
 	end
 
 	def average_goals_by_season
-		season_goals_avg = GameModule.season_goals(@games)
-		season_goals_avg.each do |season, goals|
-			season_goals_avg[season] = (goals.sum.to_f / goals.count.to_f).round(2)
-		end
-		return season_goals_avg
+		GameModule.goals_by_season(@games)
 	end
 
 	def count_of_teams
@@ -58,32 +54,15 @@ class StatTracker
 	end
 
 	def team_info(team_id)
-		team_hash = {}
-		team = @teams.find { |team| team.team_id.to_i == team_id.to_i }
-		team_hash['team_id'] = team.team_id
-		team_hash['franchise_id'] = team.franchise_id
-		team_hash['team_name'] = team.team_name
-		team_hash['abbreviation'] = team.abbreviation
-		team_hash['link'] = team.link
-		team_hash
+		TeamModule.team_stats(@teams, team_id)
 	end
 
 	def best_season(team_id)
-		 season_win_percentage_hash = TeamModule.season_win_percentages(team_id.to_i, @game_teams)
-		 best_season = season_win_percentage_hash.invert.max
-		 best_game = @games.find do |game|
-		  best_season[1] == game.season[0..3]
-		end
-		best_game.season
+		TeamModule.season_best(@game_teams, @games, team_id)
 	end
 
 	def worst_season(team_id)
-		 season_win_percentage_hash = TeamModule.season_win_percentages(team_id.to_i, @game_teams)
-	 	 best_season = season_win_percentage_hash.invert.min
-	 	 best_game = @games.find do |game|
-	 		best_season[1] == game.season[0..3]
-	 	end
- 		best_game.season
+		TeamModule.season_worst(@game_teams, @games, team_id)
 	end
 
 	def most_tackles(season_id)
@@ -99,27 +78,15 @@ class StatTracker
 	end
 
 	def average_win_percentage(team_id)
-		games_by_team_arr = @game_teams.find_all { |game| game.team_id.to_i == team_id.to_i }
-		results_arr = games_by_team_arr.map { |games| games.result }
-		wins = results_arr.count("WIN")
-		win_percentage = (wins.to_f / results_arr.count.to_f).round(2)
-		return win_percentage
+		TeamModule.win_percentage(@game_teams, team_id)
 	end
 
 	def best_offense
-		team_goals = LeagueModule.get_team_goals(@game_teams)
-		avg_goals = LeagueModule.goals_average(team_goals)
-		name_of_teams = LeagueModule.team_names(@teams)
-		team_id_to_team_names = LeagueModule.id_to_name(avg_goals, name_of_teams)
-		LeagueModule.max_avg_goals(team_id_to_team_names)
+		LeagueModule.find_best_offense(@game_teams, @teams)
 	end
 
 	def worst_offense
-		team_goals = LeagueModule.get_team_goals(@game_teams)
-		avg_goals = LeagueModule.goals_average(team_goals)
-		name_of_teams = LeagueModule.team_names(@teams)
-		team_id_to_team_names = LeagueModule.id_to_name(avg_goals, name_of_teams)
-		LeagueModule.min_avg_goals(team_id_to_team_names)
+		LeagueModule.find_worst_offense(@game_teams, @teams)
 	end
 
 	def most_goals_scored(team_id)
@@ -152,12 +119,7 @@ class StatTracker
 	end
 
 	def count_of_games_by_season
-		seasons_arr = @games.map { |game| game.season }
-		game_count_by_season = Hash.new
-		seasons_arr.uniq.each do |season|
-			game_count_by_season[season] = seasons_arr.count(season)
-		end
-		return game_count_by_season
+		GameModule.season_count_of_games(@games)
 	end
 
   def favorite_opponent(team_id)
@@ -169,23 +131,18 @@ class StatTracker
 	end
 
 	def highest_scoring_visitor
-		team_id = LeagueModule.average_visitor_scores(@games).invert.max.last
-		LeagueModule.team_name_by_id(team_id.to_i, @teams)
+		LeagueModule.highest_visitor_score(@games, @teams)
 	end
 
 	def lowest_scoring_visitor
-		team_id = LeagueModule.average_visitor_scores(@games).invert.min.last
-		LeagueModule.team_name_by_id(team_id.to_i, @teams)
+		LeagueModule.lowest_visitor_score(@games, @teams)
 	end
 
 	def highest_scoring_home_team
-		team_id = LeagueModule.average_home_scores(@games).invert.max.last
-		LeagueModule.team_name_by_id(team_id.to_i, @teams)
+		LeagueModule.highest_home_team_score(@games, @teams)
 	end
 
 	def lowest_scoring_home_team
-		team_id = LeagueModule.average_home_scores(@games).invert.min.last
-		LeagueModule.team_name_by_id(team_id.to_i, @teams)
+		LeagueModule.lowest_home_team_score(@games, @teams)
 	end
-
 end

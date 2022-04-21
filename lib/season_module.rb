@@ -104,5 +104,4 @@ module SeasonModule
 		return worst_team.team_name
 
   end
-
 end
