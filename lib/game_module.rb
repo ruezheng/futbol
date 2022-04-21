@@ -40,4 +40,21 @@ module GameModule
     end
     return season_goals
   end
+
+  def GameModule.goals_by_season(games)
+    season_goals_avg = GameModule.season_goals(games)
+    season_goals_avg.each do |season, goals|
+      season_goals_avg[season] = (goals.sum.to_f / goals.count.to_f).round(2)
+    end
+    return season_goals_avg
+  end
+
+  def GameModule.season_count_of_games(games)
+    seasons_arr = games.map { |game| game.season }
+    game_count_by_season = Hash.new
+    seasons_arr.uniq.each do |season|
+      game_count_by_season[season] = seasons_arr.count(season)
+    end
+    return game_count_by_season
+  end
 end

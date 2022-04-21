@@ -75,5 +75,41 @@ module TeamModule
      end
      season_win_percentage_hash
    end
+
+  def TeamModule.win_percentage(game_teams, team_id)
+    games_by_team_arr = game_teams.find_all { |game| game.team_id.to_i == team_id.to_i }
+    results_arr = games_by_team_arr.map { |games| games.result }
+    wins = results_arr.count("WIN")
+    win_percentage = (wins.to_f / results_arr.count.to_f).round(2)
+    return win_percentage
+  end
+
+  def TeamModule.season_worst(game_teams, games, team_id)
+    season_win_percentage_hash = TeamModule.season_win_percentages(team_id.to_i, game_teams)
+    best_season = season_win_percentage_hash.invert.min
+    best_game = games.find do |game|
+     best_season[1] == game.season[0..3]
+   end
+   best_game.season
+  end
+
+  def TeamModule.season_best(game_teams, games, team_id)
+    season_win_percentage_hash = TeamModule.season_win_percentages(team_id.to_i, game_teams)
+    best_season = season_win_percentage_hash.invert.max
+    best_game = games.find do |game|
+     best_season[1] == game.season[0..3]
+   end
+   best_game.season
  end
 
+ def TeamModule.team_stats(teams, team_id)
+   team_hash = {}
+   team = teams.find { |team| team.team_id.to_i == team_id.to_i }
+   team_hash['team_id'] = team.team_id
+   team_hash['franchise_id'] = team.franchise_id
+   team_hash['team_name'] = team.team_name
+   team_hash['abbreviation'] = team.abbreviation
+   team_hash['link'] = team.link
+   team_hash
+ end
+end
