@@ -1,3 +1,3 @@
 # Futbol
 
-Starter repository for the [Turing School](https://turing.io/) Futbol project.
+Build a statistics platform to analyze team performance using CSV data set of games over many seasons.
